@@ -1,0 +1,82 @@
+from queuee import Queue
+
+cola = Queue()
+cola.arrive({"personaje": "Tony Stark", "superheroe": "Iron Man", "genero": "M"})
+cola.arrive({"personaje": "Steve Rogers", "superheroe": "Capitán América", "genero": "M"})
+cola.arrive({"personaje": "Natasha Romanoff", "superheroe": "Black Widow", "genero": "F"})
+cola.arrive({"personaje": "Carol Danvers", "superheroe": "Capitana Marvel", "genero": "F"})
+cola.arrive({"personaje": "Scott Lang", "superheroe": "Ant-Man", "genero": "M"})
+cola.arrive({"personaje": "Stephen Strange", "superheroe": "Doctor Strange", "genero": "M"})
+cola.arrive({"personaje": "Shuri", "superheroe": "Shuri", "genero": "F"})
+
+def buscar_personaje(superheroe_buscado):
+    resultado = None
+    for _ in range(cola.size()):
+        heroe = cola.attention()
+        if heroe["superheroe"] == superheroe_buscado:
+            resultado = heroe["personaje"]
+        cola.arrive(heroe)
+    return resultado
+
+def superheroes_femeninos():
+    lista = []
+    for _ in range(cola.size()):
+        heroes = cola.attention()
+        if heroes["genero"] == "F":
+            lista.append(heroes["superheroe"])
+        cola.arrive(heroes)
+    return lista
+
+def personajes_masculinos():
+    lista = []
+    for _ in range(cola.size()):
+        heroes = cola.attention()
+        if heroes["genero"] == "M":
+            lista.append(heroes["personaje"])
+        cola.arrive(heroes)
+    return lista
+
+def buscar_superheroe(personaje_buscado):
+    resultado = None
+    for _ in range(cola.size()):
+        heroe = cola.attention()
+        if heroe["personaje"] == personaje_buscado:
+            resultado = heroe["superheroe"]
+        cola.arrive(heroe)
+    return resultado
+
+def nombres_con_S():
+    lista = []
+    for _ in range(cola.size()):
+        heroe = cola.attention()
+        if heroe["personaje"][0] == "S" or heroe["superheroe"][0] == "S":
+            lista.append(heroe)
+        cola.arrive(heroe)
+    return lista
+
+def verificar_carol():
+    resultado = None
+    for _ in range(cola.size()):
+        heroe = cola.attention()
+        if heroe["personaje"] == "Carol Danvers":
+            resultado = heroe["superheroe"]
+        cola.arrive(heroe)
+    return resultado
+
+
+print("a) Nombre del personaje de Capitana Marvel:", buscar_personaje("Capitana Marvel"))
+print()
+print("b) Superheroes femeninos:", superheroes_femeninos())
+print()
+print("c) Superheroes masculinos:", personajes_masculinos())
+print()
+print("d) el nombre de superheroe de Scott Lang es:", buscar_superheroe("Scott Lang"))
+print()
+print("e) Los superheroes que empiezan con S son :", nombres_con_S())
+print()
+
+carol = verificar_carol()
+if carol:
+    print("f) Carol Danvers está en la cola, y su nombre de superheroe es:", carol)
+else:
+    print("f) Carol Danvers no está en la cola.")
